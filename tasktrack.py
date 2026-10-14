@@ -17,9 +17,12 @@ def display_menu():
 def add_task(tasks):
     """Prompt the user for a task and add it to the task list."""
     task = input("Enter a new task: ")
+    if not task:
+       print("Task must not be empty.")
+       return 
     tasks.append(task.strip())
     print("\"" + task.capitalize() + "\" added to task list successfully.")
-    pass
+    return
 
 def view_tasks(tasks):
     """Display all tasks currently stored in the task list."""
@@ -31,7 +34,6 @@ def view_tasks(tasks):
     
     for number, task in enumerate(tasks, start=1):
         print(f'{number:3}. {task}')
-    #TODO: Complete this function in Step 9.
     pass
 
 
@@ -42,7 +44,9 @@ def load_tasks(filename):
     try:
         with open(filename, "r") as file:
             for line in file:
-                if line != "":
+                if not line:
+                    pass
+                else:
                     task = line.strip()
                     tasks.append(task)
     except FileNotFoundError:
@@ -57,8 +61,6 @@ def save_tasks(tasks, filename):
     with open(filename, "w") as file:
         for task in tasks:
             file.write(f"{task}\n")
-        #TODO: Loop through the tasks list.
-        #TODO: Write each task followed by a newline character.
 
 
 def main():
