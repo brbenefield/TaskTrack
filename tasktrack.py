@@ -4,6 +4,7 @@ Author: Beanie Benefield
 Course: CPS 310
 """
 
+TASKS_FILE = "tasks.txt"
 
 def display_menu():
     """Display the available TaskTrack menu options."""
@@ -16,7 +17,7 @@ def display_menu():
 def add_task(tasks):
     """Prompt the user for a task and add it to the task list."""
     task = input("Enter a new task: ")
-    tasks.append(task)
+    tasks.append(task.strip())
     print("\"" + task.capitalize() + "\" added to task list successfully.")
     pass
 
@@ -29,14 +30,31 @@ def view_tasks(tasks):
     print("\nTasks:")
     
     for number, task in enumerate(tasks, start=1):
-        print(f'{number:100}. {task}')
+        print(f'{number:3}. {task}')
     #TODO: Complete this function in Step 9.
     pass
 
 
+def load_tasks(filename):
+    """Load tasks from a text file and return them as a list."""
+    tasks = []
+
+    try:
+        with open(filename, "r") as file:
+            for line in file:
+                if line != "":
+                    task = line.strip()
+                    tasks.append(task)
+    except FileNotFoundError:
+        # A new project may not have a task file yet.
+        return []
+
+    return tasks
+
+
 def main():
     """Run the TaskTrack menu until the user chooses to exit."""
-    tasks = []
+    tasks = load_tasks(TASKS_FILE)
 
     while True:
         display_menu()
